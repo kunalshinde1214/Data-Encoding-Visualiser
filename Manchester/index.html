@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manchester Encoding Simulation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script>
+    // Function to convert a binary string to a Manchester encoded string.
+    function manchesterEncode(binaryString) {
+      var manchesterEncodedString = "";
+      for (var i = 0; i < binaryString.length; i++) {
+        if (binaryString.charAt(i) === "0") {
+          manchesterEncodedString += "10";
+        } else if (binaryString.charAt(i) === "1") {
+          manchesterEncodedString += "01";
+        }
+      }
+      return manchesterEncodedString;
+    }
+
+    // Function to draw the graph for the Manchester encoded string, with only vertical or horizontal lines.
+    function drawGraph(manchesterEncodedString) {
+      // Create a new Chart object.
+      var chart = new Chart($("#manchesterEncodedGraph"), {
+        type: "line",
+        data: {
+          labels: [...manchesterEncodedString],
+          datasets: [{
+            label: "Manchester Encoded String",
+            data: manchesterEncodedString.split("").map(function(bit) {
+              return bit === "1" ? 1 : -1;
+            }),
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            borderWidth: 3,
+            type: "line",
+            stepped: true
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: "Manchester Encoded String Graph"
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: -1,
+                max: 1
+              }
+            }]
+          }
+        }
+      });
+    }
+
+    // Function to handle the "Encode" button click event.
+    function encodeButtonClick() {
+      // Get the binary data to encode from the input field.
+      var binaryString = $("#binaryStringInput").val();
+
+      // Encode the binary data using Manchester encoding.
+      var manchesterEncodedString = manchesterEncode(binaryString);
+
+      // Display the Manchester encoded string.
+      $("#manchesterEncodedString").text(manchesterEncodedString);
+
+      // Draw the graph for the Manchester encoded string.
+      drawGraph(manchesterEncodedString);
+    }
+  </script>
+  <style>
+    .input {
+      color: #87a4b6;
+      width: 30%;
+      background-color: #002733;
+      border: none;
+      outline: none;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+      border-left: 1px solid transparent;
+    }
+
+    .button{
+      width: 120px;
+      height: 35px;
+      border: 3px solid #002733;
+      border-radius: 40px;
+      transition: all 0.3s;
+      cursor: pointer;
+      background: white;
+      font-size: 1.2em;
+      font-weight: 550;
+    }
+
+    .button:hover {
+      background: #315cfd;
+      color: white;
+      font-size: 1.3em;
+    }
+  </style>
+</head>
+<body background="https://i.postimg.cc/50bXFpbk/back.webp">
+  <h1 align="center"><b>Manchester Encoding Simulation</b></h1>
+  <div align="center">
+  <input class="input" type="text" id="binaryStringInput"  placeholder="Please Input A Binary Number"/>
+  <button class="button" type="button" onclick="encodeButtonClick()">Encode</button>
+  </div>
+  <div id="manchesterEncodedString"></div>
+
+  <canvas id="manchesterEncodedGraph"></canvas>
+</body>
+</html>
