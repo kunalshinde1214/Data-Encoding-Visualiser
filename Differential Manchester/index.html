@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Differential Manchester Encoding Simulation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script>
+    // Function to convert a binary string to a differential Manchester encoded string.
+    function differentialManchesterEncode(binaryString) {
+      var differentialManchesterEncodedString = "";
+      var previousBit = "0";
+      var previousstr = "10";
+      for (var i = 0; i < binaryString.length; i++) {
+        if (binaryString.charAt(i) === "0") {
+          if(previousstr === "01"){
+            differentialManchesterEncodedString += "01";
+            previousstr = "01";
+          }
+          else{
+            differentialManchesterEncodedString += "10";
+            previousstr = "10";
+          }
+        } else {
+          if(previousstr === "01"){
+            differentialManchesterEncodedString += "10";
+            previousstr = "10";
+          }
+          else{
+            differentialManchesterEncodedString += "01"
+            previousstr = "01";
+          }
+        }
+        previousBit = binaryString.charAt(i);
+      }
+      return differentialManchesterEncodedString;
+    }
+
+    // Function to draw the graph for the differential Manchester encoded string, with only vertical or horizontal lines.
+    function drawGraph(differentialManchesterEncodedString) {
+      // Create a new Chart object.
+      var chart = new Chart($("#differentialManchesterEncodedGraph"), {
+        type: "line",
+        data: {
+          labels: [...differentialManchesterEncodedString],
+          datasets: [{
+            label: "Differential Manchester Encoded String",
+            data: differentialManchesterEncodedString.split("").map(function(bit) {
+              return bit === "1" ? 1 : -1;
+            }),
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            borderWidth: 3,
+            type: "line",
+            stepped: true
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: "Differential Manchester Encoded String Graph"
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: -1,
+                max: 1
+              }
+            }]
+          }
+        }
+      });
+    }
+
+    // Function to handle the "Encode" button click event.
+    function encodeButtonClick() {
+      // Get the binary data to encode from the input field.
+      var binaryString = $("#binaryStringInput").val();
+
+      // Encode the binary data using differential Manchester encoding.
+      var differentialManchesterEncodedString = differentialManchesterEncode(binaryString);
+
+      // Display the differential Manchester encoded string.
+      $("#differentialManchesterEncodedString").text(differentialManchesterEncodedString);
+
+      // Draw the graph for the differential Manchester encoded string.
+      drawGraph(differentialManchesterEncodedString);
+    }
+  </script>
+  <style>
+    .input {
+      color: #87a4b6;
+      width: 30%;
+      background-color: #002733;
+      border: none;
+      outline: none;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+      border-left: 1px solid transparent;
+    }
+
+    .button{
+      width: 120px;
+      height: 35px;
+      border: 3px solid #002733;
+      border-radius: 40px;
+      transition: all 0.3s;
+      cursor: pointer;
+      background: white;
+      font-size: 1.2em;
+      font-weight: 550;
+    }
+
+    .button:hover {
+      background: #315cfd;
+      color: white;
+      font-size: 1.3em;
+    }
+  </style>
+</head>
+<body background="https://i.postimg.cc/50bXFpbk/back.webp">
+  <h1 align="center">Differential Manchester Encoding Simulation</h1>
+  <div align="center">
+  <input class="input" type="text" id="binaryStringInput" placeholder="Please Enter a Binary Number."/>
+  <button class="button" type="button" onclick="encodeButtonClick()">Encode</button>
+  </div>
+  <div id="differentialManchesterEncodedString"></div>
+
+  <canvas id="differentialManchesterEncodedGraph"></canvas>
+</body>
+</html>
