@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Signal Encoding Simulator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-wave-square"></i>
+                <span>SignalSim</span>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="nav-links" id="nav-links">
+                    <a href="#hero" class="nav-link">Home</a>
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#simulator" class="nav-link">Simulator</a>
+                    <a href="#about" class="nav-link">About</a>
+                </div>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content animate-fade-in">
+                <h1>Digital Signal Encoding Simulator</h1>
+                <p>Visualize and understand different digital encoding techniques with our interactive simulator. Perfect for students, engineers, and anyone interested in digital communications.</p>
+                <div class="hero-buttons">
+                    <a href="#simulator" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Try Simulator
+                    </a>
+                    <a href="#about" class="btn btn-outline">
+                        <i class="fas fa-book"></i>
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image"></div>
+        <div class="particles-container" id="particles-container"></div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title animate-slide-up">
+                <h2>Key Features</h2>
+                <p>Our simulator offers a comprehensive set of tools to help you understand digital signal encoding techniques.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animate-slide-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Multiple Encoding Types</h3>
+                    <p>Explore various encoding techniques including Manchester, Differential Manchester, NRZ-L, NRZ-I, RZ, AMI, and 4B/5B.</p>
+                </div>
+                <div class="feature-card animate-slide-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <h3>Animated Visualization</h3>
+                    <p>Watch the signal generation process with smooth animations to better understand how each encoding works.</p>
+                </div>
+                <div class="feature-card animate-slide-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Interactive Controls</h3>
+                    <p>Adjust clock rate, toggle clock signal visibility, and enable auto-update for real-time encoding.</p>
+                </div>
+                <div class="feature-card animate-slide-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Side-by-Side Comparison</h3>
+                    <p>Compare different encoding techniques for the same binary input to understand their differences and advantages.</p>
+                </div>
+                <div class="feature-card animate-slide-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h3>Export Options</h3>
+                    <p>Download visualizations as images or copy encoded output to clipboard for use in other applications.</p>
+                </div>
+                <div class="feature-card animate-slide-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Educational Content</h3>
+                    <p>Learn about each encoding technique, their applications, advantages, and limitations.</p>
+                </div>
+            </div>
+        </div>
+        <div class="dispersion-container" id="features-dispersion"></div>
+    </section>
+
+    <section id="simulator" class="simulator">
+        <div class="container">
+            <div class="section-title animate-slide-up">
+                <h2>Interactive Simulator</h2>
+                <p>Experiment with different encoding techniques and see the results in real-time.</p>
+            </div>
+            <div class="card animate-slide-up">
+                <div class="tabs">
+                    <div class="tab active" data-tab="encoder">Encoder</div>
+                    <div class="tab" data-tab="comparison">Comparison</div>
+                    <div class="tab" data-tab="animation">Animation</div>
+                    <div class="tab" data-tab="about">About</div>
+                </div>
+
+                <div id="encoder" class="tab-content active">
+                    <div class="input-group">
+                        <label for="binary-input">Binary Input (0s and 1s)</label>
+                        <input type="text" id="binary-input" placeholder="Enter binary data (e.g., 10101010)" value="10101010">
+                    </div>
+
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="encoding-type">Encoding Type</label>
+                            <select id="encoding-type">
+                                <option value="manchester">Manchester Encoding</option>
+                                <option value="differential">Differential Manchester</option>
+                                <option value="nrz-l">NRZ-L (Non-Return to Zero Level)</option>
+                                <option value="nrz-i">NRZ-I (Non-Return to Zero Inverted)</option>
+                                <option value="rz">RZ (Return to Zero)</option>
+                                <option value="ami">AMI (Alternate Mark Inversion)</option>
+                                <option value="4b5b">4B/5B Encoding</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Clock Rate (Hz)</label>
+                            <div class="range-control">
+                                <input type="range" id="clock-rate" min="1" max="10" value="2" step="1">
+                                <div class="range-value"><span id="clock-rate-value">2</span> Hz</div>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Show Clock Signal</label>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" id="show-clock" checked>
+                                    <span class="slider"></span>
+                                </label>
+                                <span>Enabled</span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Auto-Update</label>
+                            <div class="toggle-switch">
+                                <label class="switch">
+                                    <input type="checkbox" id="auto-update">
+                                    <span class="slider"></span>
+                                </label>
+                                <span>Disabled</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="encode-btn" class="btn-primary">
+                            <i class="fas fa-play"></i>
+                            Encode
+                        </button>
+                        <button id="random-btn" class="btn-secondary">
+                            <i class="fas fa-random"></i>
+                            Generate Random Binary
+                        </button>
+                        <button id="download-btn" class="btn-outline">
+                            <i class="fas fa-download"></i>
+                            Download as Image
+                        </button>
+                        <button id="copy-btn" class="btn-outline">
+                            <i class="fas fa-copy"></i>
+                            Copy Encoded Output
+                        </button>
+                    </div>
+
+                    <div class="visualization">
+                        <div class="canvas-container">
+                            <canvas id="signal-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="comparison" class="tab-content">
+                    <div class="input-group">
+                        <label for="comparison-input">Binary Input for Comparison</label>
+                        <input type="text" id="comparison-input" placeholder="Enter binary data (e.g., 10101010)" value="10101010">
+                    </div>
+
+                    <div class="button-group">
+                        <button id="compare-btn" class="btn-primary">
+                            <i class="fas fa-sync-alt"></i>
+                            Compare All Encodings
+                        </button>
+                        <button id="compare-random-btn" class="btn-secondary">
+                            <i class="fas fa-random"></i>
+                            Generate Random Binary
+                        </button>
+                        <button id="compare-download-btn" class="btn-outline">
+                            <i class="fas fa-download"></i>
+                            Download Comparison
+                        </button>
+                    </div>
+
+                    <div class="comparison-grid" id="comparison-grid">
+                        <!-- Comparison items will be generated here -->
+                    </div>
+                </div>
+
+                <div id="animation" class="tab-content">
+                    <div class="input-group">
+                        <label for="animation-input">Binary Input for Animation</label>
+                        <input type="text" id="animation-input" placeholder="Enter binary data (e.g., 10101010)" value="1010">
+                    </div>
+
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="animation-type">Encoding Type</label>
+                            <select id="animation-type">
+                                <option value="manchester">Manchester Encoding</option>
+                                <option value="differential">Differential Manchester</option>
+                                <option value="nrz-l">NRZ-L (Non-Return to Zero Level)</option>
+                                <option value="nrz-i">NRZ-I (Non-Return to Zero Inverted)</option>
+                                <option value="rz">RZ (Return to Zero)</option>
+                                <option value="ami">AMI (Alternate Mark Inversion)</option>
+                            </select>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Animation Speed</label>
+                            <div class="range-control">
+                                <input type="range" id="animation-speed" min="1" max="10" value="5" step="1">
+                                <div class="range-value"><span id="animation-speed-value">5</span> (Faster ↔ Slower)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="animate-btn" class="btn-primary">
+                            <i class="fas fa-play"></i>
+                            Start Animation
+                        </button>
+                        <button id="animation-random-btn" class="btn-secondary">
+                            <i class="fas fa-random"></i>
+                            Generate Random Binary
+                        </button>
+                        <button id="animation-reset-btn" class="btn-outline">
+                            <i class="fas fa-undo"></i>
+                            Reset Animation
+                        </button>
+                    </div>
+
+                    <div class="visualization">
+                        <div class="canvas-container">
+                            <canvas id="animation-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="about" class="tab-content">
+                    <div class="about-content">
+                        <div class="about-card">
+                            <h3>Manchester Encoding</h3>
+                            <p>Manchester encoding is a synchronous clock encoding technique used in digital data communications. It represents binary data by transitions rather than levels.</p>
+                            <p>In Manchester encoding:</p>
+                            <ul>
+                                <li>A '0' is represented by a high-to-low transition at the middle of the bit period</li>
+                                <li>A '1' is represented by a low-to-high transition at the middle of the bit period</li>
+                            </ul>
+                            <p>This ensures that there is always a transition in the middle of each bit period, allowing for clock recovery.</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>Differential Manchester Encoding</h3>
+                            <p>Differential Manchester encoding is a line code in which data is represented by changes in the signal level rather than the level itself.</p>
+                            <p>In Differential Manchester:</p>
+                            <ul>
+                                <li>There is always a transition at the middle of each bit period</li>
+                                <li>A '0' is represented by a transition at the start of the bit period</li>
+                                <li>A '1' is represented by no transition at the start of the bit period</li>
+                            </ul>
+                            <p>This encoding is more resistant to noise and provides better synchronization.</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>NRZ-L (Non-Return to Zero Level)</h3>
+                            <p>NRZ-L is one of the simplest binary encoding schemes. In this encoding:</p>
+                            <ul>
+                                <li>A '0' is represented by one voltage level</li>
+                                <li>A '1' is represented by a different voltage level</li>
+                            </ul>
+                            <p>The signal does not return to zero between bits, making it efficient but susceptible to clock drift over long sequences of the same bit.</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>NRZ-I (Non-Return to Zero Inverted)</h3>
+                            <p>NRZ-I is a differential encoding scheme where:</p>
+                            <ul>
+                                <li>A '0' means no change in signal level</li>
+                                <li>A '1' means a change in signal level</li>
+                            </ul>
+                            <p>This encoding is less susceptible to noise than NRZ-L and provides some clock recovery capability.</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>RZ (Return to Zero)</h3>
+                            <p>In Return to Zero encoding:</p>
+                            <ul>
+                                <li>A '1' is represented by a positive pulse for half the bit period, then zero</li>
+                                <li>A '0' is represented by a negative pulse for half the bit period, then zero</li>
+                            </ul>
+                            <p>The signal returns to zero in the middle of each bit period, making it easier to synchronize but requiring more bandwidth.</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>AMI (Alternate Mark Inversion)</h3>
+                            <p>In Alternate Mark Inversion:</p>
+                            <ul>
+                                <li>A '0' is represented by no line signal (zero voltage)</li>
+                                <li>A '1' is represented by alternating positive and negative pulses</li>
+                            </ul>
+                            <p>This encoding provides good error detection and DC balance, making it suitable for long-distance transmission.</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>4B/5B Encoding</h3>
+                            <p>4B/5B is a block code that maps 4-bit data to 5-bit code words:</p>
+                            <ul>
+                                <li>Each 4-bit data nibble is mapped to a 5-bit code</li>
+                                <li>The 5-bit codes are chosen to avoid long sequences of zeros</li>
+                                <li>This helps with clock recovery and synchronization</li>
+                            </ul>
+                            <p>4B/5B is often used in combination with NRZI encoding in protocols like FDDI and Fast Ethernet.</p>
+                        </div>
+
+                        <div class="about-card">
+                            <h3>Real-World Applications</h3>
+                            <p>These encoding techniques are used in various communication systems:</p>
+                            <ul>
+                                <li><strong>Manchester:</strong> Ethernet (IEEE 802.3), USB, RFID</li>
+                                <li><strong>Differential Manchester:</strong> Token Ring networks, magnetic storage</li>
+                                <li><strong>NRZ:</strong> Serial ports, hard disk drives, fiber optic communications</li>
+                                <li><strong>AMI:</strong> T1/E1 lines, ISDN</li>
+                                <li><strong>4B/5B:</strong> FDDI, Fast Ethernet (100BASE-FX)</li>
+                            </ul>
+                            <p>The choice of encoding depends on factors like bandwidth efficiency, clock recovery needs, and error detection requirements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dispersion-container" id="simulator-dispersion"></div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SignalSim</h3>
+                    <p>An interactive digital signal encoding simulator for educational purposes.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#simulator">Simulator</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@signalsim.com">info@signalsim.com</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SignalSim. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="script.js" >    </script>
+</body>
+</html>
